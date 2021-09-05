@@ -1,2 +1,2 @@
-# CygnusOS
-伪系统
+# Cygnus Language Compiler
+***based of LLVM***
