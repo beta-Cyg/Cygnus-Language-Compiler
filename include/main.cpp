@@ -3,7 +3,7 @@
 #include<cstdlib>
 #include<algorithm>
 #include"core/grammar_tree.h"
-#include"core/parser.h"
+#include"core/ir.h"
 
 std::string no_suffix(std::string input_value){
 	std::reverse(input_value.begin(),input_value.end());
