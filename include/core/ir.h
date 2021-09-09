@@ -6,7 +6,9 @@
 
 namespace cyg{
 	namespace llvm{
-		std::string to_ir_code(cyg::grammar_tree::g_tree g_tree_value);
+		std::string to_ir_code(cyg::grammar_tree::g_tree g_tree_value){
+			return "";
+		}
 	}
 }
 

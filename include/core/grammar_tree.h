@@ -13,14 +13,14 @@ namespace cyg{
 		class base_struct{
 		public:
 			base_struct* next;
-			virtual base_struct(base_struct* _next=nullptr):next(_next)noexcept{}
+			base_struct(base_struct* _next=nullptr):next(_next){}
 		};//base class of the tree node
 
 		class import_struct:public base_struct{
 		public:
 			std::string module_name;
 			base_struct* next;
-			import_struct(std::string mn="",base_struct* _next=nullptr):module_name(mn),next(_next)noexcept{}
+			import_struct(std::string mn="",base_struct* _next=nullptr):module_name(mn),next(_next){}
 		};
 
 		class value_struct:public base_struct{
@@ -34,8 +34,8 @@ namespace cyg{
 		class expression{
 			std::string exp;
 
-			const real& operate(initializer_list<real> args){
-				real result;
+			real oper(std::initializer_list<real> args){
+				real result=0;
 				return result;
 			}
 		};//todo finish the function operate of the class expression
@@ -46,7 +46,7 @@ namespace cyg{
 
 			g_tree_error_code()noexcept{}
 
-			g_tree_error_code(std::string&& c_t):code_type(c_t)noexcept{}
+			g_tree_error_code(std::string&& c_t):code_type(c_t){}
 
 			const char* what(){
 				return code_type.c_str();
@@ -70,12 +70,15 @@ namespace cyg{
 		};
 
 		g_tree parse(std::string file_name){
-			ifstream fin(file_name);
+			std::ifstream fin(file_name);
 			std::string file_str="",buf;
 			while(getline(fin,buf))file_str+=buf;
 			fin.close();
+			g_tree gt(file_str);
+			return gt;
 		}
 	}
 }
 
 #endif
+
