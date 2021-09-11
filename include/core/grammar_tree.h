@@ -32,13 +32,64 @@ namespace cyg{
 		};
 
 		class expression{
+		public:
 			std::string exp;
 
-			real oper(std::initializer_list<real> args){
-				real result=0;
-				return result;
+			expression(){}
+
+			expression(std::string&& _exp){
+				*this=_exp;
+			}
+
+			expression(const char* _exp){
+				*this=_exp;
+			}
+
+			const expression& operator=(std::string&& _exp){
+				exp=_exp;
+				return *this;
+			}
+
+			const expression& operator=(const std::string& _exp){
+				exp=_exp;
+				return *this;
+			}
+
+			const expression& operator=(const char* _exp){
+				exp=_exp;
+				return *this;
+			}
+
+			std::string parse(){
+				return exp;//todo
 			}
 		};//todo finish the function operate of the class expression
+
+		class if_struct:public base_struct{
+		public:
+			expression bool_exp;
+			base_struct* child;
+			base_struct* next;
+			if_struct(expression bexp="false",base_struct* _child=nullptr,base_struct* _next=nullptr):bool_exp(bexp),child(_child),next(_next){}
+		};
+
+		class for_struct:public base_struct{
+		public:
+			value_struct for_value;
+			expression bool_exp;
+			expression change_exp;
+			base_struct* child;
+			base_struct* next;
+			for_struct(value_struct fv=value_struct(),expression bexp="false",expression cexp="",base_struct* _child=nullptr,base_struct* _next=nullptr):for_value(fv),bool_exp(bexp),change_exp(cexp),child(_child),next(_next){}
+		};
+
+		class while_struct:public base_struct{
+		public:
+			expression bool_exp;
+			base_struct* child;
+			base_struct* next;
+			while_struct(expression bexp="false",base_struct* _child=nullptr,base_struct* _next=nullptr):bool_exp(bexp),child(_child),next(_next){}
+		};
 
 		class g_tree_error_code:public std::exception{
 		public:
