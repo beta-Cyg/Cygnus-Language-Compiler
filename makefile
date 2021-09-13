@@ -1,4 +1,7 @@
-all: cygnus
+all: init cygnus
+
+init:
+	mkdir -p bin lib
 
 cygnus: include/main.cpp grammar_tree
 	g++ include/main.cpp -o bin/cygnus
@@ -8,4 +11,4 @@ grammar_tree: include/core/grammar_tree.h
 	rm lib/gt.o
 
 clean:
-	rm -rf *.o *.a *.so *.exe
+	rm -rf bin lib

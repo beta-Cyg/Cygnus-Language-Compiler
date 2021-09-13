@@ -10,6 +10,12 @@ namespace cyg{
 	namespace grammar_tree{
 		typedef long double real;
 
+		class type_struct{
+		public:
+			std::string type_name;
+			type_struct(std::string tn="any"):type_name(tn){}
+		};
+
 		class base_struct{
 		public:
 			base_struct* next;
@@ -25,10 +31,11 @@ namespace cyg{
 
 		class value_struct:public base_struct{
 		public:
+			type_struct type_name;
 			std::string value_name;
 			base_struct* child;
 			base_struct* next;
-			value_struct(std::string vn="",base_struct* _child=nullptr,base_struct* _next=nullptr):value_name(vn),child(_child),next(_next){}
+			value_struct(type_struct tn,std::string vn="",base_struct* _child=nullptr,base_struct* _next=nullptr):type_name(tn),value_name(vn),child(_child),next(_next){}
 		};
 
 		class expression{
@@ -89,6 +96,11 @@ namespace cyg{
 			base_struct* child;
 			base_struct* next;
 			while_struct(expression bexp="false",base_struct* _child=nullptr,base_struct* _next=nullptr):bool_exp(bexp),child(_child),next(_next){}
+		};
+
+		class func_struct:public base_struct{
+		public:
+			value_struct* args;
 		};
 
 		class g_tree_error_code:public std::exception{
