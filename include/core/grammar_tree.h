@@ -101,6 +101,19 @@ namespace cyg{
 		class func_struct:public base_struct{
 		public:
 			value_struct* args;
+			type_name type;
+			base_struct* child;
+			base_struct* next;
+			func_struct(value_struct* _args=nullptr,type_name tn=type_name(),base_struct* _child=nullptr,base_struct* _next=nullptr):args(_args),type(tn),child(_child),next(_next){}
+		};
+
+		class call_struct:public base_struct{
+		public:
+			value_struct* args;
+			func_struct call_func;
+			base_struct* child;
+			base_struct* next;
+			call_struct(value_struct* _args=nullptr,func_struct cf=func_struct(),base_struct* _child=nullptr,base_struct* _next=nullptr):args(_args),call_func(cf),child(_child),next(_next){}
 		};
 
 		class g_tree_error_code:public std::exception{
