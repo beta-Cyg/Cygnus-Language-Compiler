@@ -8,7 +8,52 @@
 
 namespace cyg{
 	namespace grammar_tree{
+        std::string keywords[]={"var","import","export","if","for","while","else","elif","proc","return"};
+
+        typedef unsigned long long size_type;
+
 		typedef long double real;
+
+        inline bool is_value(const std::string& name){
+            if(name.front()>='0' and name.front()<='9')return false;
+            for(auto i:name)
+                if(i!='_'){
+                    if((i>='a' and i<='z')or(i>='0' and i<='9'))continue;
+                    return false;
+                }
+            return true;
+        }
+
+        inline bool is_value(const char& name){
+            if(name>='0' and name<='9')return false;
+            if(name!='_')
+                if(not((name>='a' and name<='z')or(name>='0' and name<='9')))
+                    return false;
+            return true;
+        }
+
+        bool keyword_search(const std::string& code,const std::string& keyword){
+            if(code==keyword)return true;
+            size_type pos=code.find(keyword);
+            if(pos>=code.size())return false;
+            if(pos+keyword.size()-1/*the pos of the end of the keyword*/==code.size()-1/*the end of code*/){
+                if(is_value(code[pos-1]))return false;
+                return true;
+            }
+            else if(pos==0 and pos+keyword.size()-1<code.size()-1){
+                if(is_value(code[pos+keyword.size()]))return false;
+                return true;
+            }
+            else{
+                if(is_value(code[pos-1]))return false;
+                if(is_value(code[pos+keyword.size()]))return false;
+                return true;
+            }
+            //pos==0 and pos+keyword.size()-1==code.size()-1 : line 34(全匹配)
+            //pos==0 and pos+keyword.size()-1<code.size()-1 : 41-44(不达末尾，达开头)
+            //pos!=0 and pos+keyword.size()-1==code.size()-1 : line 37-40(达末尾，不达开头)
+            //pos!=0 and pos+keyword.size()-1<code.size()-1 : line 45-49(不达末尾，不达开头)
+        }
 
 		class type_struct{
 		public:
@@ -134,7 +179,25 @@ namespace cyg{
 			base_struct* root;
 			std::string code;
 		public:
-			g_tree(const std::string& _code):root(nullptr),code(_code){
+			explicit g_tree(std::string  _code):root(nullptr),code(std::move(_code)){
+                std::string buf("");
+                for(auto i:code){
+                    buf.push_back(i);
+                    if(i==';'){
+                        buf.pop_back();
+                        if(root==nullptr){
+                            root=new base_struct();
+                            for(auto i:keywords)
+                                if(keyword_search(buf,i))
+                            //finish it
+                            buf.clear();
+                            continue;
+                        }
+                        base_struct* a=new base_struct();
+                        root->next=a;
+                        buf.clear();
+                    }
+                }
 			}
 			
 			~g_tree(){
@@ -157,4 +220,3 @@ namespace cyg{
 }
 
 #endif
-
