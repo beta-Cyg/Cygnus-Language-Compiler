@@ -35,7 +35,7 @@ namespace cyg{
 			std::string value_name;
 			base_struct* child;
 			base_struct* next;
-			value_struct(type_struct tn,std::string vn="",base_struct* _child=nullptr,base_struct* _next=nullptr):type_name(tn),value_name(vn),child(_child),next(_next){}
+			value_struct(type_struct tn=type_struct(),std::string vn="",base_struct* _child=nullptr,base_struct* _next=nullptr):type_name(tn),value_name(vn),child(_child),next(_next){}
 		};
 
 		class expression{
@@ -101,10 +101,10 @@ namespace cyg{
 		class func_struct:public base_struct{
 		public:
 			value_struct* args;
-			type_name type;
+			type_struct type;
 			base_struct* child;
 			base_struct* next;
-			func_struct(value_struct* _args=nullptr,type_name tn=type_name(),base_struct* _child=nullptr,base_struct* _next=nullptr):args(_args),type(tn),child(_child),next(_next){}
+			func_struct(value_struct* _args=nullptr,type_struct tn=type_struct(),base_struct* _child=nullptr,base_struct* _next=nullptr):args(_args),type(tn),child(_child),next(_next){}
 		};
 
 		class call_struct:public base_struct{
