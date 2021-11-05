@@ -1,6 +1,7 @@
 #ifndef CYG_GRAMMAR_TREE_H
 #define CYG_GRAMMAR_TREE_H
 
+#include<map>
 #include<string>
 #include<fstream>
 #include<exception>
@@ -161,6 +162,15 @@ namespace cyg{
 			call_struct(value_struct* _args=nullptr,func_struct cf=func_struct(),base_struct* _child=nullptr,base_struct* _next=nullptr):args(_args),call_func(cf),child(_child),next(_next){}
 		};
 
+		class import_table{
+		private:
+			map<string>modules;
+		public:
+			void add_module(string module_name){
+				modules.insert(module_name);
+			}
+		}//todo finish import module
+
 		class g_tree_error_code:public std::exception{
 		public:
 			std::string code_type;
@@ -188,12 +198,15 @@ namespace cyg{
                         if(root==nullptr){
                             root=new base_struct();
                             for(auto i:keywords)
-                                if(keyword_search(buf,i))
-                            //finish it
+                                if(keyword_search(buf,i)){
+					switch()
+					//todo push data to the new struct;
+				}
                             buf.clear();
                             continue;
                         }
                         base_struct* a=new base_struct();
+			//todo push data to the new struct
                         root->next=a;
                         buf.clear();
                     }
